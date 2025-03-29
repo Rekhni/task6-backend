@@ -41,13 +41,16 @@ app.post('/api/presentations', (req, res) => {
 
 app.post('/api/users', (req, res) => {
     const { presentationId, userId, name, role } = req.body;
+    console.log('Received POST request to /api/users', req.body);
 
     const userRef = db.ref(`presentations/${presentationId}/users/${userId}`);
 
     userRef.set({ name, role }, (error) => {
         if (error) {
+            console.error('Error adding user:', error);
             res.status(500).send({ message: "Error adding user" });
         } else {
+            console.log('User added successfully');
             res.status(201).send({ message: "User added successfully" });
         }
     });
